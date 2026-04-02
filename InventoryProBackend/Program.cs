@@ -16,6 +16,7 @@ builder.Services.AddDbContext<ContextDb>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddScoped<ICategori, CategoriService>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
 
 
 
