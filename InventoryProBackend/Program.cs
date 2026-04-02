@@ -17,6 +17,7 @@ builder.Services.AddDbContext<ContextDb>(options =>
 
 builder.Services.AddScoped<ICategori, CategoriService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<IProducts, ProducService>();
 
 
 
