@@ -1,9 +1,11 @@
 ﻿using InventoryProBackend.Dto;
+using Microsoft.AspNetCore.Authorization;
 using InventoryProBackend.InterfaceService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InventoryProBackend.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CustomerController : ControllerBase

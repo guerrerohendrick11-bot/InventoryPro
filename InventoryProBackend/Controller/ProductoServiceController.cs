@@ -1,7 +1,9 @@
 ﻿using InventoryProBackend.Dto;
+using Microsoft.AspNetCore.Authorization;
 using InventoryProBackend.InterfaceService;
 using Microsoft.AspNetCore.Mvc;
 
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class ProductController : ControllerBase

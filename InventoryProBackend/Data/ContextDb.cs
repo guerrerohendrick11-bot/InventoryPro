@@ -1,9 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using InventoryProBackend.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace InventoryProBackend.Data
 {
     public class ContextDb: DbContext
     {
+        internal object saleDetails;
+
         public ContextDb(DbContextOptions<ContextDb>options): base(options)
         {
             
@@ -16,6 +19,7 @@ namespace InventoryProBackend.Data
          public DbSet<Models.SaleDetails> SaleDetails { get; set; }
          public DbSet<Models.Sales> Sales { get; set; }
          public DbSet<Models.Users> Users { get; set; }
-       
+         public DbSet<Roles> Role { get; set; }
+
     }
 }
