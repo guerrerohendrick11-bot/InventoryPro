@@ -8,20 +8,32 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//  Controllers
+// Controllers
 builder.Services.AddControllers();
 
-//  Swagger
+// Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//  DB Context
+// CORS 👇 (AGREGADO)
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngular",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:4200")
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
+
+// DB Context
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<ContextDb>(options =>
     options.UseSqlServer(connectionString));
 
-//  Dependency Injection (Services)
+// Dependency Injection (Services)
 builder.Services.AddScoped<ICategori, CategoriService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IProducts, ProducService>();
@@ -31,8 +43,7 @@ builder.Services.AddScoped<ISaleService, SalesService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
-
-//  JWT Configuration
+// JWT Configuration
 var jwtSettings = builder.Configuration.GetSection("Jwt");
 var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]);
 
@@ -58,15 +69,17 @@ builder.Services.AddAuthentication(options =>
 
 var app = builder.Build();
 
-//  Swagger solo en desarrollo
+// Swagger solo en desarrollo
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-//  Middlewares
+// Middlewares
 app.UseHttpsRedirection();
+
+app.UseCors("AllowAngular"); // 👈 CLAVE PARA ANGULAR
 
 app.UseAuthentication();
 app.UseAuthorization();
