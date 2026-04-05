@@ -1,0 +1,24 @@
+<div class="login-container">
+  <h2>Iniciar Sesión</h2>
+
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    
+    <div class="form-group">
+      <input type="text" placeholder="Usuario" formControlName="username">
+    </div>
+
+    <div class="form-group password-group">
+      <input 
+        [type]="showPassword ? 'text' : 'password'" 
+        placeholder="Contraseña" 
+        formControlName="password">
+
+      <button type="button" (click)="togglePassword()" class="toggle-btn">
+        👁️
+      </button>
+    </div>
+
+    <button type="submit">Entrar</button>
+    
+  </form>
+</div>
