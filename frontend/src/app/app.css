@@ -1,0 +1,21 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Fondo general */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #0d6efd, #0a58ca);
+  height: 100vh;
+}
+
+/* Contenedor principal */
+.app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
