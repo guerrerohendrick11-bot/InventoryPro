@@ -10,7 +10,7 @@ public class ProductController : ControllerBase
 {
     private readonly IProducts _productService;
 
-    public ProductController(IProducts productService)
+    public ProductController(IProducts productService)  
     {
         _productService = productService;
     }
