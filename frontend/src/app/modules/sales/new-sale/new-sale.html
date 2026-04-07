@@ -1,1 +1,74 @@
-<p>new-sale works!</p>
+<div class="sale-container">
+  <div class="top-actions">
+  <button type="button" routerLink="/products" class="btn-back">← Volver a Productos</button>
+</div>
+  <h2>Nueva Venta</h2>
+
+  <div class="form-section">
+    <label>Cliente</label>
+    <select [(ngModel)]="selectedCustomerId">
+      <option [ngValue]="null">Selecciona un cliente</option>
+      <option *ngFor="let c of customers" [ngValue]="c.id">
+        {{ c.name }}
+      </option>
+    </select>
+  </div>
+
+  <div class="form-section">
+    <label>Producto</label>
+    <div class="product-add">
+      <select [(ngModel)]="selectedProductId">
+        <option [ngValue]="null">Selecciona un producto</option>
+        <option *ngFor="let p of products" [ngValue]="p.id">
+          {{ p.name }} - ${{ p.price }}
+        </option>
+      </select>
+
+      <button type="button" (click)="addProduct()">Agregar</button>
+    </div>
+  </div>
+
+  <table *ngIf="saleDetails.length > 0" class="sale-table">
+    <thead>
+      <tr>
+        <th>Producto</th>
+        <th>Precio</th>
+        <th>Cantidad</th>
+        <th>Subtotal</th>
+        <th>Acción</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let item of saleDetails; let i = index">
+        <td>{{ item.name }}</td>
+        <td>${{ item.price }}</td>
+        <td>
+          <input
+            type="number"
+            [(ngModel)]="item.quantity"
+            (change)="updateQuantity(item)"
+            min="1"
+          />
+        </td>
+        <td>${{ item.subtotal }}</td>
+        <td>
+          <button type="button" class="btn-remove" (click)="removeItem(i)">
+            Quitar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="total-box">
+    <strong>Total: ${{ total }}</strong>
+  </div>
+
+  <button type="button" class="btn-save" (click)="saveSale()">
+    Guardar Venta
+  </button>
+
+  <p class="success" *ngIf="successMessage">{{ successMessage }}</p>
+  <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+</div>
