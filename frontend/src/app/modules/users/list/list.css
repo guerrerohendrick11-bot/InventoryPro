@@ -1,0 +1,25 @@
+.header-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-create,
+.btn-edit,
+.btn-search,
+.btn-clear,
+.btn-sale {
+  background: #0d6efd;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-create:hover,
+.btn-edit:hover,
+.btn-search:hover,
+.btn-sale:hover {
+  background: #0b5ed7;
+}

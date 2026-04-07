@@ -7,5 +7,6 @@ import { Component } from '@angular/core';
   styleUrl: './list.css',
 })
 export class List {
+searchName: any;
 
 }
