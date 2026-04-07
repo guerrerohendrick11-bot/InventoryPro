@@ -37,30 +37,27 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log("LOGIN CLICK"); 
+  console.log("LOGIN CLICK");
 
-    if (this.loginForm.invalid) return;
+  if (this.loginForm.invalid) return;
 
-    this.authService.login(this.loginForm.value).subscribe({
-      next: (res) => {
-        console.log("RESPUESTA:", res);
+  this.authService.login(this.loginForm.value).subscribe({
+    next: (res) => {
+      console.log("RESPUESTA:", res);
 
-        this.authService.saveToken(res.token);
+      this.authService.saveToken(res.token);
 
-        const role = this.authService.getRole();
+      const role = this.authService.getRole();
+      console.log("ROL DEL TOKEN:", role);
 
-        if (role === 'Admin') {
-          this.router.navigate(['/products']);
-        } else if (role === 'Seller') {
-          this.router.navigate(['/sales']);
-        } else {
-          this.router.navigate(['/']);
-        }
-      },
-      error: (err) => {
-        console.error(err);
-        this.errorMessage = 'Usuario o contraseña incorrectos';
-      }
-    });
-  }
+      this.router.navigate(['/products']).then(result => {
+        console.log("NAVEGÓ:", result);
+      });
+    },
+    error: (err) => {
+      console.error(err);
+      this.errorMessage = 'Usuario o contraseña incorrectos';
+    }
+  });
+}
 }
