@@ -1,1 +1,48 @@
-<p>form works!</p>
+<div class="product-form-container">
+  <h2>{{ isEditMode ? 'Editar Producto' : 'Crear Producto' }}</h2>
+
+  <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+
+    <div class="form-group">
+      <label>Nombre</label>
+      <input type="text" formControlName="name" placeholder="Nombre del producto">
+    </div>
+
+    <div class="form-group">
+      <label>Precio</label>
+      <input type="number" formControlName="price" placeholder="Precio">
+    </div>
+
+    <div class="form-group">
+      <label>Stock</label>
+      <input type="number" formControlName="stock" placeholder="Stock">
+    </div>
+
+    <div class="form-group">
+      <label>Categoría ID</label>
+      <input type="number" formControlName="categoryId" placeholder="Id de categoría">
+    </div>
+
+    <div class="form-check">
+      <label>
+        <input type="checkbox" formControlName="isActive">
+        Activo
+      </label>
+    </div>
+
+    <button type="submit">
+      {{ isEditMode ? 'Guardar Cambios' : 'Guardar Producto' }}
+    </button>
+
+    <button
+      *ngIf="isEditMode"
+      type="button"
+      class="btn-delete"
+      (click)="deleteProduct()">
+      Eliminar Producto
+    </button>
+
+    <p class="success" *ngIf="successMessage">{{ successMessage }}</p>
+    <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+  </form>
+</div>
