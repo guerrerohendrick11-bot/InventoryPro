@@ -1,1 +1,74 @@
-<p>list works!</p>
+<div class="products-container">
+  <div class="header">
+    <h2>Lista de Productos</h2>
+
+    <div class="header-buttons">
+      <button routerLink="/products/create" class="btn-create">
+        + Nuevo Producto
+      </button>
+
+      <button routerLink="/sales/create" class="btn-sale">
+        + Nueva Venta
+      </button>
+    </div>
+  </div>
+
+  <div class="filters">
+    <input
+      type="text"
+      [(ngModel)]="searchName"
+      placeholder="Buscar por nombre"
+      class="filter-input"
+    />
+
+    <input
+      type="number"
+      [(ngModel)]="searchCategoryId"
+      placeholder="Filtrar por categoría ID"
+      class="filter-input"
+    />
+
+    <button class="btn-search" (click)="searchProducts()">Buscar</button>
+    <button class="btn-clear" (click)="clearFilters()">Limpiar</button>
+  </div>
+
+  <p class="total">Total: {{ products.length }}</p>
+
+  <table *ngIf="products.length > 0" class="product-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Precio</th>
+        <th>Stock</th>
+        <th>Categoría</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let p of products">
+        <td>{{ p.id }}</td>
+        <td>{{ p.name }}</td>
+        <td>${{ p.price }}</td>
+        <td>{{ p.stock }}</td>
+        <td>{{ p.categoryId }}</td>
+        <td>
+          <span [class.active]="p.isActive" [class.inactive]="!p.isActive">
+            {{ p.isActive ? 'Activo' : 'Inactivo' }}
+          </span>
+        </td>
+        <td>
+          <button [routerLink]="['/products/edit', p.id]" class="btn-edit">
+            Editar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="products.length === 0" class="empty">
+    No hay productos registrados con esos filtros.
+  </div>
+</div>

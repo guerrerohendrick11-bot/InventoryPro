@@ -1,0 +1,104 @@
+.products-container {
+  width: 90%;
+  max-width: 1100px;
+  margin: 40px auto;
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.header h2 {
+  margin: 0;
+  color: #333;
+}
+
+.filters {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.filter-input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  min-width: 220px;
+}
+
+.btn-create,
+.btn-edit,
+.btn-search,
+.btn-clear {
+  background: #0d6efd;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-create:hover,
+.btn-edit:hover,
+.btn-search:hover {
+  background: #0b5ed7;
+}
+
+.btn-clear {
+  background: #6c757d;
+}
+
+.btn-clear:hover {
+  background: #5c636a;
+}
+
+.total {
+  margin-bottom: 10px;
+  color: #666;
+}
+
+.product-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.product-table th {
+  background: #0d6efd;
+  color: white;
+  padding: 10px;
+  text-align: left;
+}
+
+.product-table td {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.product-table tr:hover {
+  background: #f8f9fa;
+}
+
+.active {
+  color: green;
+  font-weight: bold;
+}
+
+.inactive {
+  color: red;
+  font-weight: bold;
+}
+
+.empty {
+  text-align: center;
+  padding: 20px;
+  color: #999;
+}
