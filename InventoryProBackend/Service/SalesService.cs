@@ -21,8 +21,8 @@ namespace InventoryProBackend.Service
             var sales = new Sales
             {
                 CustomerId = dto.CustomerId,    
-                Total = dto.Total,
-                UsuerId = dto.UsuerId
+                Total = (int)dto.Total,
+                UserId = dto.UserId
             };
 
             await _context.Sales.AddAsync(sales);
@@ -40,7 +40,7 @@ namespace InventoryProBackend.Service
                     Id = s.Id,
                     CustomerId = s.CustomerId,
                     Total = s.Total,
-                    UsuerId = s.UsuerId,
+                    UserId = s.UserId,
                 
                  
                 })
@@ -56,7 +56,7 @@ namespace InventoryProBackend.Service
                     Id = s.Id,
                     CustomerId = s.CustomerId,
                     Total = s.Total,
-                    UsuerId = s.UsuerId
+                    UserId = s.UserId
                 })
                 .FirstOrDefaultAsync();
         }
