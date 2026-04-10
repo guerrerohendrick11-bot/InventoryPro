@@ -3,6 +3,7 @@ import { LoginComponent } from './modules/auth/login/login.component';
 import { ListComponent } from './modules/products/list/list';
 import { FormComponent } from './modules/products/form/form';
 import { NewSaleComponent } from './modules/sales/new-sale/new-sale';
+import { List as SalesList } from './modules/sales/list/list';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -10,5 +11,6 @@ export const routes: Routes = [
   { path: 'products', component: ListComponent },
   { path: 'products/create', component: FormComponent },
   { path: 'products/edit/:id', component: FormComponent },
-  { path: 'sales/create', component: NewSaleComponent }
+  { path: 'sales/create', component: NewSaleComponent },
+  { path: 'sales/list', component: SalesList }
 ];
