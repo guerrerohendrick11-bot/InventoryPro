@@ -1,8 +1,14 @@
 <div class="sale-container">
   <div class="top-actions">
-  <button type="button" routerLink="/products" class="btn-back">← Volver a Productos</button>
-</div>
+    <button type="button" routerLink="/products" class="btn-back">← Volver a Productos</button>
+  </div>
   <h2>Nueva Venta</h2>
+
+  <div class="top-actions">
+    <button type="button" class="btn-back" routerLink="/sales/list">
+      Ver ventas guardadas
+    </button>
+  </div>
 
   <div class="form-section">
     <label>Cliente</label>
@@ -44,12 +50,7 @@
         <td>{{ item.name }}</td>
         <td>${{ item.price }}</td>
         <td>
-          <input
-            type="number"
-            [(ngModel)]="item.quantity"
-            (change)="updateQuantity(item)"
-            min="1"
-          />
+          <input type="number" [(ngModel)]="item.quantity" (change)="updateQuantity(item)" min="1" />
         </td>
         <td>${{ item.subtotal }}</td>
         <td>

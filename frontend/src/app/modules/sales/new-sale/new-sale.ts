@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+
 import { CustomerService } from '../../../core/services/customer.service';
 import { ProductService } from '../../../core/services/product.service';
 import { SaleService } from '../../../core/services/sale.service';
@@ -10,7 +11,7 @@ import { SaleDetailService } from '../../../core/services/sale-detail.service';
 @Component({
   selector: 'app-new-sale',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './new-sale.html',
   styleUrls: ['./new-sale.css']
 })
@@ -106,7 +107,31 @@ export class NewSaleComponent implements OnInit {
     this.total = this.saleDetails.reduce((sum, item) => sum + item.subtotal, 0);
   }
 
+  getUserIdFromToken(): number {
+    const token = localStorage.getItem('token');
+    if (!token) return 0;
+
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      console.log('PAYLOAD COMPLETO DEL TOKEN:', payload);
+
+      for (const key in payload) {
+        if (key.toLowerCase().includes('nameidentifier')) {
+          return Number(payload[key]);
+        }
+      }
+
+      return 0;
+    } catch (error) {
+      console.error('ERROR LEYENDO TOKEN:', error);
+      return 0;
+    }
+  }
+
   saveSale(): void {
+    this.errorMessage = '';
+    this.successMessage = '';
+
     if (!this.selectedCustomerId) {
       this.errorMessage = 'Debes seleccionar un cliente.';
       return;
@@ -117,15 +142,27 @@ export class NewSaleComponent implements OnInit {
       return;
     }
 
+    const userId = this.getUserIdFromToken();
+    console.log('USER ID DEL TOKEN:', userId);
+
+    if (userId === 0) {
+      this.errorMessage = 'No se pudo obtener el usuario desde el token.';
+      return;
+    }
+
     const saleDto = {
       id: 0,
       customerId: this.selectedCustomerId,
       total: this.total,
-      usuerId: 1
+      userId: userId
     };
+
+    console.log('VENTA A ENVIAR:', saleDto);
 
     this.saleService.create(saleDto).subscribe({
       next: (saleResponse) => {
+        console.log('RESPUESTA DE VENTA:', saleResponse);
+
         const saleId = saleResponse.id;
         let savedDetails = 0;
 
@@ -139,6 +176,8 @@ export class NewSaleComponent implements OnInit {
             subtotal: item.subtotal
           };
 
+          console.log('DETALLE A ENVIAR:', detailDto);
+
           this.saleDetailService.create(detailDto).subscribe({
             next: () => {
               savedDetails++;
@@ -147,11 +186,14 @@ export class NewSaleComponent implements OnInit {
                 this.successMessage = 'Venta guardada correctamente.';
                 this.errorMessage = '';
 
-                // limpiar formulario y carrito
                 this.selectedCustomerId = null;
                 this.selectedProductId = null;
                 this.saleDetails = [];
                 this.total = 0;
+
+                setTimeout(() => {
+                  this.router.navigate(['/sales/list']);
+                }, 1000);
               }
             },
             error: (err) => {

@@ -1,1 +1,34 @@
-<p>list works!</p>
+<div class="sales-list-container">
+  <div class="header">
+    <h2>Lista de Ventas</h2>
+    <a routerLink="/sales/create" class="btn-new-sale">+ Nueva Venta</a>
+  </div>
+
+  <p class="loading" *ngIf="loading">Cargando ventas...</p>
+  <p class="error-message" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+  <div class="table-wrapper" *ngIf="!loading && sales.length > 0">
+    <table class="sales-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Cliente</th>
+          <th>Total</th>
+          <th>Usuario ID</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let sale of sales">
+          <td>{{ sale.id }}</td>
+          <td>{{ getCustomerName(sale.customerId) }}</td>
+          <td>${{ sale.total }}</td>
+          <td>{{ sale.userId }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="empty-message" *ngIf="!loading && sales.length === 0">
+    No hay ventas registradas.
+  </p>
+</div>
