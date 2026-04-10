@@ -1,0 +1,39 @@
+<div class="sale-detail-container">
+  <div class="header">
+    <h2>Detalle de Venta</h2>
+    <a routerLink="/sales/list" class="btn-back">← Volver a ventas</a>
+  </div>
+
+  <p *ngIf="loading">Cargando detalle de venta...</p>
+  <p class="error-message" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+  <div *ngIf="!loading && sale" class="sale-info">
+    <p><strong>ID Venta:</strong> {{ sale.id }}</p>
+    <p><strong>Cliente:</strong> {{ getCustomerName(sale.customerId) }}</p>
+    <p><strong>Total:</strong> ${{ sale.total }}</p>
+    <p><strong>Usuario ID:</strong> {{ sale.userId }}</p>
+  </div>
+
+  <div class="table-wrapper" *ngIf="!loading && details.length > 0">
+    <table class="detail-table">
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Cantidad</th>
+          <th>Precio</th>
+          <th>Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of details">
+          <td>{{ getProductName(item.productId) }}</td>
+          <td>{{ item.quantity }}</td>
+          <td>${{ item.price }}</td>
+          <td>${{ item.subtotal }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p *ngIf="!loading && details.length === 0">Esta venta no tiene detalles.</p>
+</div>
