@@ -15,6 +15,7 @@
           <th>Cliente</th>
           <th>Total</th>
           <th>Usuario ID</th>
+          <th>Acción</th>
         </tr>
       </thead>
       <tbody>
@@ -23,6 +24,9 @@
           <td>{{ getCustomerName(sale.customerId) }}</td>
           <td>${{ sale.total }}</td>
           <td>{{ sale.userId }}</td>
+          <td>
+            <a [routerLink]="['/sales/detail', sale.id]" class="btn-detail">Ver detalle</a>
+          </td>
         </tr>
       </tbody>
     </table>

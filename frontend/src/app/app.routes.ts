@@ -4,6 +4,7 @@ import { ListComponent } from './modules/products/list/list';
 import { FormComponent } from './modules/products/form/form';
 import { NewSaleComponent } from './modules/sales/new-sale/new-sale';
 import { List as SalesList } from './modules/sales/list/list';
+import { SaleDetailComponent } from './modules/sales/detail/detail';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -12,5 +13,6 @@ export const routes: Routes = [
   { path: 'products/create', component: FormComponent },
   { path: 'products/edit/:id', component: FormComponent },
   { path: 'sales/create', component: NewSaleComponent },
-  { path: 'sales/list', component: SalesList }
+  { path: 'sales/list', component: SalesList },
+  { path: 'sales/detail/:id', component: SaleDetailComponent }
 ];

@@ -30,4 +30,10 @@ export class SaleService {
       headers: this.getAuthHeaders()
     });
   }
+
+  getById(saleId: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${saleId}`, {
+      headers: this.getAuthHeaders()
+    });
+  }
 }

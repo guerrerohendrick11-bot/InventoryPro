@@ -1,3 +1,17 @@
+.btn-detail {
+    background: #198754;
+    color: white;
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    display: inline-block;
+    transition: background 0.2s ease;
+}
+
+.btn-detail:hover {
+    background: #157347;
+}
 .sales-list-container {
     width: 92%;
     max-width: 1100px;
