@@ -12,6 +12,7 @@
     <p><strong>Cliente:</strong> {{ getCustomerName(sale.customerId) }}</p>
     <p><strong>Total:</strong> ${{ sale.total }}</p>
     <p><strong>Usuario ID:</strong> {{ sale.userId }}</p>
+    <p><strong>Fecha:</strong> {{ sale.date | date:'dd/MM/yyyy HH:mm' }}</p>
   </div>
 
   <div class="table-wrapper" *ngIf="!loading && details.length > 0">

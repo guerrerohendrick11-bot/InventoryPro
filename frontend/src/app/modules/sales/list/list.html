@@ -1,7 +1,10 @@
 <div class="sales-list-container">
   <div class="header">
     <h2>Lista de Ventas</h2>
-    <a routerLink="/sales/create" class="btn-new-sale">+ Nueva Venta</a>
+    <div class="header-actions">
+      <a routerLink="/products" class="btn-back-products">← Volver a productos</a>
+      <a routerLink="/sales/create" class="btn-new-sale">+ Nueva Venta</a>
+    </div>
   </div>
 
   <p class="loading" *ngIf="loading">Cargando ventas...</p>
@@ -15,6 +18,7 @@
           <th>Cliente</th>
           <th>Total</th>
           <th>Usuario ID</th>
+          <th>Fecha</th>
           <th>Acción</th>
         </tr>
       </thead>
@@ -24,6 +28,7 @@
           <td>{{ getCustomerName(sale.customerId) }}</td>
           <td>${{ sale.total }}</td>
           <td>{{ sale.userId }}</td>
+          <td>{{ sale.date | date:'dd/MM/yyyy HH:mm' }}</td>
           <td>
             <a [routerLink]="['/sales/detail', sale.id]" class="btn-detail">Ver detalle</a>
           </td>
