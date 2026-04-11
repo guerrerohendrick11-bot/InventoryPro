@@ -16,17 +16,33 @@ export class List implements OnInit {
   customers: any[] = [];
   errorMessage: string = '';
   loading: boolean = true;
+  role: string = '';
 
   constructor(
     private saleService: SaleService,
     private customerService: CustomerService,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit(): void {
+    this.role = this.getUserRoleFromToken();
+
     setTimeout(() => {
       this.loadData();
     }, 0);
+  }
+
+  getUserRoleFromToken(): string {
+    const token = localStorage.getItem('token');
+    if (!token) return '';
+
+    const payload = JSON.parse(atob(token.split('.')[1]));
+
+    return (
+      payload['role'] ||
+      payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] ||
+      ''
+    );
   }
 
   loadData(): void {

@@ -117,3 +117,23 @@
     margin-top: 20px;
     color: #777;
 }
+
+.role-badge {
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    display: inline-block;
+}
+
+/* Admin */
+.role-badge.admin {
+    background: #fff3cd;
+    color: #856404;
+}
+
+/* Comprador / Seller */
+.role-badge.comprador {
+    background: #d1e7dd;
+    color: #12ce76;
+}

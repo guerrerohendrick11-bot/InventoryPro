@@ -10,7 +10,7 @@ export class AuthService {
 
   private apiUrl = 'https://localhost:7265/api/auth';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // 🔐 LOGIN
   login(data: any) {
@@ -49,8 +49,8 @@ export class AuthService {
     try {
       const decoded: any = jwtDecode(token);
 
-    
-      return decoded.role 
+
+      return decoded.role
         || decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]
         || null;
 
@@ -63,5 +63,18 @@ export class AuthService {
   // LOGOUT
   logout() {
     localStorage.removeItem('token');
+  }
+
+  getUserRoleFromToken(): string {
+    const token = localStorage.getItem('token');
+    if (!token) return '';
+
+    const payload = JSON.parse(atob(token.split('.')[1]));
+
+    return (
+      payload['role'] ||
+      payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] ||
+      ''
+    );
   }
 }

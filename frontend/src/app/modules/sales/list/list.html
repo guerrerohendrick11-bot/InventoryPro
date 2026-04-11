@@ -9,6 +9,13 @@
     </div>
   </div>
 
+  <p class="current-role">
+    Rol actual:
+    <span class="role-badge" [ngClass]="role.toLowerCase()">
+      {{ role }}
+    </span>
+  </p>
+
   <p class="loading" *ngIf="loading">Cargando ventas...</p>
   <p class="error-message" *ngIf="errorMessage">{{ errorMessage }}</p>
 
@@ -19,7 +26,6 @@
           <th>ID</th>
           <th>Cliente</th>
           <th>Total</th>
-          <th>Usuario</th>
           <th>Acción</th>
         </tr>
       </thead>
@@ -29,7 +35,6 @@
           <td>#{{ sale.id }}</td>
           <td>{{ getCustomerName(sale.customerId) }}</td>
           <td class="total">${{ sale.total }}</td>
-          <td>{{ sale.userId }}</td>
           <td>
             <a [routerLink]="['/sales/detail', sale.id]" class="btn-detail">
               Ver detalle

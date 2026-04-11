@@ -17,14 +17,31 @@ export class ListComponent implements OnInit {
 
   searchName: string = '';
   searchCategoryId: number | null = null;
+  role: string = '';
+
 
   constructor(
     private productService: ProductService,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
+
+  getUserRoleFromToken(): string {
+    const token = localStorage.getItem('token');
+    if (!token) return '';
+
+    const payload = JSON.parse(atob(token.split('.')[1]));
+
+    return (
+      payload['role'] ||
+      payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] ||
+      ''
+    );
+  }
 
   ngOnInit(): void {
     this.getProducts();
+    this.role = this.getUserRoleFromToken();
+
   }
 
   getProducts(): void {
