@@ -23,12 +23,12 @@ namespace InventoryProBackend.Service
 
         public async Task<string?> LoginAsync(LoginDto dto)
         {
-            // 🔥 1. Traer usuario CON su rol
+            //  Traer usuario CON su rol
             var user = await _context.Users
                 .Include(u => u.Role)
                 .FirstOrDefaultAsync(u => u.Username.ToLower() == dto.Username.ToLower());
 
-            // 🔥 2. Validaciones
+            // Validaciones
             if (user == null || user.PasswordHash != dto.Password)
             {
                 return null;
@@ -39,15 +39,15 @@ namespace InventoryProBackend.Service
                 throw new Exception("El usuario no tiene rol asignado");
             }
 
-            // 🔥 3. Claims (AQUÍ ESTÁ EL CAMBIO IMPORTANTE)
+            // Claims (AQUÍ ESTÁ EL CAMBIO IMPORTANTE)
             var claims = new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.Role, user.Role.Name) // 🔥 ahora sí correcto
+                new Claim(ClaimTypes.Role, user.Role.Name.Trim())
             };
 
-            // 🔐 4. Key
+            //  Key
             var keySection = _config["Jwt:Key"];
             if (string.IsNullOrEmpty(keySection))
             {
@@ -57,7 +57,7 @@ namespace InventoryProBackend.Service
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(keySection));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            // 🎟️ 5. Token
+            //  Token
             var token = new JwtSecurityToken(
                 issuer: _config["Jwt:Issuer"],
                 audience: _config["Jwt:Audience"],

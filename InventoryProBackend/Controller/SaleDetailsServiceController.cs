@@ -24,6 +24,7 @@ namespace InventoryProBackend.Controllers
       
         /// < name="saleId">ID de la venta principal
         [HttpGet("by-sale/{saleId}")]
+        [Authorize(Roles = "Admin,Seller")]
         public async Task<ActionResult<IEnumerable<SaleDetailsDto>>> GetBySaleId(int saleId)
         {
             var details = await _saleDetailsService.GetBySaleIdAsync(saleId);
@@ -34,6 +35,7 @@ namespace InventoryProBackend.Controllers
         /// Obtiene un detalle de línea específico por su propio ID.
         
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin,Seller")]
         public async Task<ActionResult<SaleDetailsDto>> GetById(int id)
         {
             var detail = await _saleDetailsService.GetByIdAsync(id);
@@ -45,6 +47,7 @@ namespace InventoryProBackend.Controllers
 
         /// Agrega un producto a una venta.
         [HttpPost]
+        [Authorize(Roles = "Admin,Seller")]
         public async Task<ActionResult<SaleDetailsDto>> Create(SaleDetailsDto dto)
         {
             try
@@ -65,6 +68,7 @@ namespace InventoryProBackend.Controllers
         /// Actualiza un detalle de venta (Ej: cambiar la cantidad o el precio).
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(int id, SaleDetailsDto dto)
         {
             var success = await _saleDetailsService.UpdateAsync(id, dto);
@@ -77,6 +81,7 @@ namespace InventoryProBackend.Controllers
         /// Elimina un producto de la venta.
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var success = await _saleDetailsService.DeleteAsync(id);

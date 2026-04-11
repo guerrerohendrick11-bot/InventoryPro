@@ -19,6 +19,7 @@ namespace InventoryProBackend.Controllers
 
         // GET: api/categories
         [HttpGet]
+        [Authorize(Roles = "Admin,Seller")]
         public async Task<IActionResult> GetAll()
         {
             var categories = await _categoryService.GetAllAsync();
@@ -27,6 +28,7 @@ namespace InventoryProBackend.Controllers
 
         // GET: api/categories/5
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetById(int id)
         {
             var category = await _categoryService.GetByIdAsync(id);
@@ -39,6 +41,7 @@ namespace InventoryProBackend.Controllers
 
         // POST: api/categories
         [HttpPost]
+        [Authorize(Roles = "Admin,Seller")]
         public async Task<IActionResult> Create(CategoriDto dto)
         {
             var created = await _categoryService.CreateAsync(dto);
@@ -47,6 +50,7 @@ namespace InventoryProBackend.Controllers
 
         // PUT: api/categories/5
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(int id, CategoriDto dto)
         {
             var updated = await _categoryService.UpdateAsync(id, dto);
@@ -59,6 +63,7 @@ namespace InventoryProBackend.Controllers
 
         // DELETE: api/categories/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var deleted = await _categoryService.DeleteAsync(id);

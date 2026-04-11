@@ -18,12 +18,14 @@ namespace InventoryProBackend.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin,Seller")]
         public async Task<ActionResult<IEnumerable<SalesDto>>> GetAll()
         {
             return Ok(await _salesService.GetAllAsync());
         }
 
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin,Seller")]
         public async Task<ActionResult<SalesDto>> GetById(int id)
         {
             var sale = await _salesService.GetByIdAsync(id);
@@ -32,6 +34,7 @@ namespace InventoryProBackend.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin,Seller")]
         public async Task<ActionResult<SalesDto>> Create(CreateSaleDto dto)
         {
             try
