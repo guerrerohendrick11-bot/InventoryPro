@@ -10,12 +10,13 @@ public class ProductController : ControllerBase
 {
     private readonly IProducts _productService;
 
-    public ProductController(IProducts productService)  
+    public ProductController(IProducts productService)
     {
         _productService = productService;
     }
 
     // GET: api/Product?name=laptop&categoryId=1
+    [Authorize(Roles = "Admin,Seller")]
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ProductsDto>>> GetAll([FromQuery] string? name, [FromQuery] int? categoryId)
     {
@@ -23,6 +24,7 @@ public class ProductController : ControllerBase
         return Ok(products);
     }
 
+    [Authorize(Roles = "Admin,Seller")]
     [HttpGet("{id}")]
     public async Task<ActionResult<ProductsDto>> GetById(int id)
     {
@@ -31,6 +33,7 @@ public class ProductController : ControllerBase
         return Ok(product);
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<ActionResult<ProductsDto>> Create(ProductsDto dto)
     {
@@ -38,6 +41,7 @@ public class ProductController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(int id, ProductsDto dto)
     {
@@ -46,6 +50,7 @@ public class ProductController : ControllerBase
         return NoContent();
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
