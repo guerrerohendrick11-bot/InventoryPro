@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -7,6 +7,7 @@ import { CustomerService } from '../../../core/services/customer.service';
 import { ProductService } from '../../../core/services/product.service';
 import { SaleService } from '../../../core/services/sale.service';
 import { SaleDetailService } from '../../../core/services/sale-detail.service';
+
 
 @Component({
   selector: 'app-new-sale',
@@ -34,18 +35,22 @@ export class NewSaleComponent implements OnInit {
     private productService: ProductService,
     private saleService: SaleService,
     private saleDetailService: SaleDetailService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
-    this.loadCustomers();
-    this.loadProducts();
+    setTimeout(() => {
+      this.loadCustomers();
+      this.loadProducts();
+    }, 0);
   }
 
   loadCustomers(): void {
     this.customerService.getAll().subscribe({
       next: (data) => {
         this.customers = data;
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('ERROR CARGANDO CLIENTES:', err);
@@ -57,6 +62,7 @@ export class NewSaleComponent implements OnInit {
     this.productService.getAll().subscribe({
       next: (data) => {
         this.products = data;
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('ERROR CARGANDO PRODUCTOS:', err);
@@ -197,16 +203,38 @@ export class NewSaleComponent implements OnInit {
               }
             },
             error: (err) => {
-              console.error('ERROR GUARDANDO DETALLE:', err);
-              this.errorMessage = 'La venta se creó, pero falló un detalle.';
+              this.successMessage = '';
+
+              console.log('ERROR REAL DEL BACKEND:', err);
+              console.log('err.error:', err.error);
+
+              if (typeof err.error === 'string' && err.error.trim() !== '') {
+                this.errorMessage = err.error;
+              } else if (err.error?.message) {
+                this.errorMessage = err.error.message;
+              } else {
+                this.errorMessage = 'Error al guardar detalle.';
+              }
+
+              this.cdr.detectChanges();
             }
           });
         }
       },
       error: (err) => {
-        console.error('ERROR AL GUARDAR VENTA:', err);
-        this.errorMessage = 'No se pudo guardar la venta.';
         this.successMessage = '';
+
+        console.log('ERROR REAL DEL BACKEND:', err);
+
+        if (typeof err.error === 'string' && err.error.trim() !== '') {
+          this.errorMessage = err.error;
+        } else if (err.error?.message) {
+          this.errorMessage = err.error.message;
+        } else {
+          this.errorMessage = 'No se pudo completar la venta.';
+        }
+
+        this.cdr.detectChanges();
       }
     });
   }
