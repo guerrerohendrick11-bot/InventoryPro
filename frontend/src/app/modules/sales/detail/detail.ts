@@ -32,7 +32,25 @@ export class SaleDetailComponent implements OnInit {
     private productService: ProductService,
     private customerService: CustomerService,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
+
+  formatSaleDate(dateValue: string): string {
+    if (!dateValue) return 'Sin fecha';
+
+    const date = new Date(dateValue);
+
+    if (date.getFullYear() <= 1) {
+      return 'Sin fecha';
+    }
+
+    return date.toLocaleString('es-NI', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  }
 
   ngOnInit(): void {
     setTimeout(() => {
