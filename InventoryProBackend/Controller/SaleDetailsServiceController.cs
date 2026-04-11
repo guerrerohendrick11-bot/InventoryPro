@@ -42,22 +42,28 @@ namespace InventoryProBackend.Controllers
             return Ok(detail);
         }
 
-      
+
         /// Agrega un producto a una venta.
-       
         [HttpPost]
         public async Task<ActionResult<SaleDetailsDto>> Create(SaleDetailsDto dto)
         {
-            // Podrías agregar validaciones aquí (ej: que la cantidad sea > 0)
-            if (dto.Quantity <= 0) return BadRequest("La cantidad debe ser mayor a cero.");
+            try
+            {
+                if (dto.Quantity <= 0)
+                    return BadRequest("La cantidad debe ser mayor a cero.");
 
-            var result = await _saleDetailsService.CreateAsync(dto);
-            return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
+                var result = await _saleDetailsService.CreateAsync(dto);
+                return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
-        
+
         /// Actualiza un detalle de venta (Ej: cambiar la cantidad o el precio).
-     
+
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, SaleDetailsDto dto)
         {
