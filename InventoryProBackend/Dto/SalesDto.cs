@@ -6,5 +6,6 @@
         public int CustomerId { get; set; }
         public decimal Total { get; set; }
         public int UserId { get; set; }
+        public DateTime Date { get; set; }
     }
 }

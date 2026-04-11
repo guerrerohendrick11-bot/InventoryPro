@@ -124,7 +124,8 @@ namespace InventoryProBackend.Service
                     Id = s.Id,
                     CustomerId = s.CustomerId,
                     Total = s.Total,
-                    UserId = s.UserId
+                    UserId = s.UserId,
+                    Date = s.Date
                 })
                 .FirstOrDefaultAsync();
         }
