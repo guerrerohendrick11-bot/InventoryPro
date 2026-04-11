@@ -18,6 +18,17 @@ namespace InventoryProBackend.Service
 
         public async Task<SaleDetailsDto> CreateAsync(SaleDetailsDto dto)
         {
+            if (dto.Quantity <= 0)
+                throw new Exception("La cantidad debe ser mayor que cero.");
+
+            var product = await _context.Products.FindAsync(dto.ProductId);
+
+            if (product == null)
+                throw new Exception("El producto no existe.");
+
+            if (product.Stock < dto.Quantity)
+                throw new Exception($"Stock insuficiente para el producto {product.Name}.");
+
             var saleDetailsEntity = new SaleDetails
             {
                 SaleId = dto.SaleId,
@@ -27,13 +38,18 @@ namespace InventoryProBackend.Service
             };
 
             await _context.SaleDetails.AddAsync(saleDetailsEntity);
+
+            product.Stock -= dto.Quantity;
+
             await _context.SaveChangesAsync();
 
             dto.Id = saleDetailsEntity.Id;
+            dto.Subtotal = dto.Quantity * dto.Price;
+
             return dto;
         }
 
-        
+
         public async Task<SaleDetailsDto?> GetByIdAsync(int id)
         {
             return await _context.SaleDetails
