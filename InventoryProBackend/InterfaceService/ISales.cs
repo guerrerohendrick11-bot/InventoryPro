@@ -7,5 +7,6 @@ namespace InventoryProBackend.InterfaceService
         Task<IEnumerable<SalesDto>> GetAllAsync();
         Task<SalesDto> GetByIdAsync(int id);
         Task<SalesDto> CreateAsync(SalesDto dto);
+        Task<SalesDto> CreateWithDetailsAsync(CreateSaleDto dto);
     }
 }

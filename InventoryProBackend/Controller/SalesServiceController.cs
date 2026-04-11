@@ -32,10 +32,17 @@ namespace InventoryProBackend.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<SalesDto>> Create(SalesDto dto)
+        public async Task<ActionResult<SalesDto>> Create(CreateSaleDto dto)
         {
-            var result = await _salesService.CreateAsync(dto);
-            return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
+            try
+            {
+                var result = await _salesService.CreateWithDetailsAsync(dto);
+                return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
