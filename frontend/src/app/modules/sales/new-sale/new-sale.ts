@@ -149,7 +149,6 @@ export class NewSaleComponent implements OnInit {
     }
 
     const userId = this.getUserIdFromToken();
-    console.log('USER ID DEL TOKEN:', userId);
 
     if (userId === 0) {
       this.errorMessage = 'No se pudo obtener el usuario desde el token.';
@@ -157,74 +156,35 @@ export class NewSaleComponent implements OnInit {
     }
 
     const saleDto = {
-      id: 0,
       customerId: this.selectedCustomerId,
       total: this.total,
-      userId: userId
+      userId: userId,
+      details: this.saleDetails.map(item => ({
+        productId: item.productId,
+        quantity: item.quantity,
+        price: item.price,
+        subtotal: item.subtotal
+      }))
     };
 
-    console.log('VENTA A ENVIAR:', saleDto);
-
     this.saleService.create(saleDto).subscribe({
-      next: (saleResponse) => {
-        console.log('RESPUESTA DE VENTA:', saleResponse);
+      next: () => {
+        this.successMessage = 'Venta guardada correctamente.';
+        this.errorMessage = '';
 
-        const saleId = saleResponse.id;
-        let savedDetails = 0;
+        this.selectedCustomerId = null;
+        this.selectedProductId = null;
+        this.saleDetails = [];
+        this.total = 0;
 
-        for (const item of this.saleDetails) {
-          const detailDto = {
-            id: 0,
-            saleId: saleId,
-            productId: item.productId,
-            quantity: item.quantity,
-            price: item.price,
-            subtotal: item.subtotal
-          };
+        this.cdr.detectChanges();
 
-          console.log('DETALLE A ENVIAR:', detailDto);
-
-          this.saleDetailService.create(detailDto).subscribe({
-            next: () => {
-              savedDetails++;
-
-              if (savedDetails === this.saleDetails.length) {
-                this.successMessage = 'Venta guardada correctamente.';
-                this.errorMessage = '';
-
-                this.selectedCustomerId = null;
-                this.selectedProductId = null;
-                this.saleDetails = [];
-                this.total = 0;
-
-                setTimeout(() => {
-                  this.router.navigate(['/sales/list']);
-                }, 1000);
-              }
-            },
-            error: (err) => {
-              this.successMessage = '';
-
-              console.log('ERROR REAL DEL BACKEND:', err);
-              console.log('err.error:', err.error);
-
-              if (typeof err.error === 'string' && err.error.trim() !== '') {
-                this.errorMessage = err.error;
-              } else if (err.error?.message) {
-                this.errorMessage = err.error.message;
-              } else {
-                this.errorMessage = 'Error al guardar detalle.';
-              }
-
-              this.cdr.detectChanges();
-            }
-          });
-        }
+        setTimeout(() => {
+          this.router.navigate(['/sales/list']);
+        }, 1000);
       },
       error: (err) => {
         this.successMessage = '';
-
-        console.log('ERROR REAL DEL BACKEND:', err);
 
         if (typeof err.error === 'string' && err.error.trim() !== '') {
           this.errorMessage = err.error;
